@@ -109,6 +109,16 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# yazi stuff
+function yy() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
 alias g='git'
 alias ga='git add -A'
 alias gc='git commit -m'
@@ -126,6 +136,11 @@ alias tff='terraform fmt'
 alias tfp='terraform plan'
 alias tfr='terraform refresh'
 alias tfsh='terraform show'
+
+alias ll='eza -al --group-directories-first --icons=auto'
+
+# prevent unknown terminal message for kitty terminal emulator
+alias ssh="kitten ssh"
 
 # eval "$(starship init zsh)"
 
